@@ -118,7 +118,7 @@ TARGET_USES_QTI_CAMERA_DEVICE := true
 
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
-WITH_LINEAGE_CHARGER := false
+WITH_MOKEE_CHARGER := false
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -177,9 +177,9 @@ TARGET_KERNEL_ARCH := arm64
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# Lineage hardware
+# MK hardware
 BOARD_HARDWARE_CLASS += \
-    $(PLATFORM_PATH)/lineagehw
+    $(PLATFORM_PATH)/mkhw
 
 # NFC
 BOARD_NFC_CHIPSET := pn553

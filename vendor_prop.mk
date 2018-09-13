@@ -52,7 +52,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
-    vendor.camera.aux.packagelist="org.codeaurora.snapcam,com.motorola.camera2,com.motorola.motocit,org.lineageos.snap" \
+    vendor.camera.aux.packagelist="org.codeaurora.snapcam,com.motorola.camera2,com.motorola.motocit,org.mokee.snap" \
     persist.camera.camera2=true \
     persist.camera.expose.aux=1 \
     persist.camera.is_type=3 \

@@ -200,13 +200,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.sdm660
 
-# LineageActions
+# MoKeeActions
 PRODUCT_PACKAGES += \
-    LineageActions
+    MoKeeActions
 
 # LiveDisplay native
 PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@1.0-service-sdm
+    vendor.mokee.livedisplay@1.0-service-sdm
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -365,7 +365,7 @@ PRODUCT_PACKAGES += \
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.build.vendor_security_patch=2018-06-01
+    ro.mk.build.vendor_security_patch=2018-06-01
 
 # Vibrator
 PRODUCT_PACKAGES += \
