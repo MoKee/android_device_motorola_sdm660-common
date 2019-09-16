@@ -37,7 +37,7 @@ fi
 setup_vendor "$DEVICE_COMMON" "$VENDOR" "$MK_ROOT" true
 
 # Copyright headers and guards
-write_headers "payton evert chef beckham"
+write_headers "payton evert chef beckham lake"
 
 write_makefiles "$MY_DIR"/proprietary-files.txt true
 
