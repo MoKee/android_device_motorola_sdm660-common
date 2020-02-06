@@ -188,9 +188,6 @@ TARGET_KERNEL_SOURCE := kernel/motorola/msm8998
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# MK hardware
-JAVA_SOURCE_OVERLAYS := org.mokee.hardware|$(PLATFORM_PATH)/mkhw|**/*.java
-
 # Partitions
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 BOARD_FLASH_BLOCK_SIZE := 0x40000
@@ -224,6 +221,9 @@ VENDOR_SECURITY_PATCH := 2019-03-01
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy/vendor
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(PLATFORM_PATH)/sepolicy/private
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += $(PLATFORM_PATH)
 
 # Timeservice
 BOARD_USES_QC_TIME_SERVICES := true

@@ -38,11 +38,12 @@ public class DozePreferenceActivity extends PreferenceActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.doze_panel);
-            boolean dozeEnabled = MoKeeActionsSettings.isDozeEnabled(getActivity().getContentResolver());
+            boolean dozeEnabled = MoKeeActionsSettings.isDozeEnabled(getActivity());
+            boolean aodEnabled = MoKeeActionsSettings.isAODEnabled(getActivity());
             PreferenceCategory ambientDisplayCat = (PreferenceCategory)
                     findPreference(CATEGORY_AMBIENT_DISPLAY);
             if (ambientDisplayCat != null) {
-                ambientDisplayCat.setEnabled(dozeEnabled);
+                ambientDisplayCat.setEnabled(dozeEnabled && !aodEnabled);
             }
         }
     }
