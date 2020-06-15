@@ -95,6 +95,7 @@ on fs
     mkdir /mnt/vendor/persist/data 0700 system system
     mkdir /mnt/vendor/persist/bms 0700 root system
     # Reloading context for NPI uses /mnt/vendor/persist
+    exec u:r:vendor_toolbox:s0 root audio bluetooth graphics media net_raw system vendor_rfs vendor_rfs_shared -- /vendor/bin/toybox_vendor find /mnt/vendor/persist -type d -exec /vendor/bin/toybox_vendor setfattr -x security.sehash {} \;
     restorecon_recursive /mnt/vendor/persist
 
 on late-fs
@@ -227,6 +228,9 @@ on early-boot
     chown system system /mnt/vendor/persist/sensors/registry/sns_reg_version
     chown system system /mnt/vendor/persist/sensors/registry/config
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
+
+    chown system system /mnt/vendor/persist/data/pfm/licenses
+    chmod 0775 /mnt/vendor/persist/data/pfm/licenses
 
 on boot
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
@@ -1016,10 +1020,6 @@ service vendor.loc_launcher /vendor/bin/loc_launcher
     class late_start
     user gps
     group gps
-
-on property:crypto.driver.load=1
-     insmod /system/lib/modules/qce.ko
-     insmod /system/lib/modules/qcedev.ko
 
 #service vendor.drmdiag /vendor/bin/drmdiagapp
 #    class late_start
