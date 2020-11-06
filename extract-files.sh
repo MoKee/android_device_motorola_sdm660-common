@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2018-2019 The LineageOS Project
+# Copyright (C) 2018-2020 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,11 +33,19 @@ source "${HELPER}"
 # Default to sanitizing the vendor folder before extraction
 CLEAN_VENDOR=true
 
+ONLY_COMMON=
+ONLY_TARGET=
 SECTION=
 KANG=
 
 while [ "${#}" -gt 0 ]; do
     case "${1}" in
+        --only-common )
+                ONLY_COMMON=true
+                ;;
+        --only-target )
+                ONLY_TARGET=true
+                ;;
         -n | --no-cleanup )
                 CLEAN_VENDOR=false
                 ;;
@@ -64,24 +72,26 @@ function blob_fixup() {
 
     # Load wrapped shim
     vendor/lib64/libmdmcutback.so)
-        sed -i "s|libqsap_sdk.so|libqsapshim.so|g" "$MDMCUTBACK" "${2}"
+        sed -i "s|libqsap_sdk.so|libqsapshim.so|g" "${2}"
         ;;
 
     # Fix xml version
     product/etc/permissions/vendor.qti.hardware.data.connection-V1.0-java.xml | product/etc/permissions/vendor.qti.hardware.data.connection-V1.1-java.xml)
-        sed -i 's/xml version="2.0"/xml version="1.0"/' "${2}"
+        sed -i 's|xml version="2.0"|xml version="1.0"|g' "${2}"
         ;;
 
     esac
 }
 
-# Initialize the helper for common device
-setup_vendor "${DEVICE_COMMON}" "${VENDOR}" "${MOKEE_ROOT}" true "${CLEAN_VENDOR}"
+if [ -z "${ONLY_TARGET}" ]; then
+    # Initialize the helper for common device
+    setup_vendor "${DEVICE_COMMON}" "${VENDOR}" "${MOKEE_ROOT}" true "${CLEAN_VENDOR}"
 
-extract "${MY_DIR}/proprietary-files.txt" "${SRC}" \
-        "${KANG}" --section "${SECTION}"
+    extract "${MY_DIR}/proprietary-files.txt" "${SRC}" \
+            "${KANG}" --section "${SECTION}"
+fi
 
-if [ -s "${MY_DIR}/../${DEVICE}/proprietary-files.txt" ]; then
+if [ -z "${ONLY_COMMON}" ] && [ -s "${MY_DIR}/../${DEVICE}/proprietary-files.txt" ]; then
     # Reinitialize the helper for device
     source "${MY_DIR}/../${DEVICE}/extract-files.sh"
     setup_vendor "${DEVICE}" "${VENDOR}" "${MOKEE_ROOT}" false "${CLEAN_VENDOR}"
@@ -89,7 +99,5 @@ if [ -s "${MY_DIR}/../${DEVICE}/proprietary-files.txt" ]; then
     extract "${MY_DIR}/../${DEVICE}/proprietary-files.txt" "${SRC}" \
             "${KANG}" --section "${SECTION}"
 fi
-
-COMMON_BLOB_ROOT="${MOKEE_ROOT}/vendor/${VENDOR}/${DEVICE_COMMON}/proprietary"
 
 "${MY_DIR}/setup-makefiles.sh"
